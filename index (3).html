@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Necesario para que se vea bien en el celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ascenso Argentino (versión vieja, azul)</title>
+  <!-- Todo el CSS va acá adentro: no hace falta ningún otro archivo -->
+  <style>
+/* ==========================================================
+   style.css - Estilos compartidos por todas las páginas
+   Paleta: azul, blanco y detalles en negro
+   ========================================================== */
+
+/* Variables de color y tipografía (se cambian acá y se aplican en todo el sitio) */
+:root {
+  --azul: #0a3d91;
+  --azul-oscuro: #06285e;
+  --azul-claro: #e8eefa;
+  --blanco: #ffffff;
+  --negro: #000000;
+  --titulos: "Arial Narrow", "Helvetica Neue Condensed", Impact, "Arial Black", sans-serif;
+  --texto: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Reinicio básico: el tamaño incluye bordes y padding */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--texto);
+  line-height: 1.6;
+  color: var(--negro);
+  background: var(--blanco);
+}
+
+h1, h2, h3 { font-family: var(--titulos); line-height: 1.1; margin: 0 0 .5em; }
+h1 { font-size: clamp(2.2rem, 8vw, 4rem); }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.3rem; }
+a { color: var(--azul); }
+
+/* Foco visible para quien navega con teclado */
+a:focus-visible, button:focus-visible { outline: 3px solid var(--negro); outline-offset: 2px; }
+
+/* ---------- Encabezado y menú (igual en todas las páginas) ---------- */
+.cabecera {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--azul-oscuro);
+  border-bottom: 4px solid var(--negro);
+}
+.cabecera-interior {
+  max-width: 960px; margin: 0 auto; padding: .6rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: var(--titulos); font-size: 1.4rem;
+  color: var(--blanco); text-decoration: none;
+}
+/* Botón hamburguesa: solo se ve en pantallas chicas */
+.btn-menu {
+  background: none; border: 2px solid var(--blanco); color: var(--blanco);
+  font-size: 1rem; padding: .35rem .7rem; border-radius: 4px; cursor: pointer;
+}
+.menu { display: none; list-style: none; margin: 0; padding: 0; }
+.menu.abierto { display: block; }
+.menu a {
+  display: block; padding: .8rem 1rem; color: var(--blanco);
+  text-decoration: none; border-top: 1px solid var(--azul);
+}
+.menu a:hover { background: var(--azul); }
+/* Página actual (la marca script.js) */
+.menu a.activo { background: var(--blanco); color: var(--azul-oscuro); font-weight: 700; }
+/* En móvil el menú desplegado ocupa todo el ancho debajo de la barra */
+.cabecera nav { flex-basis: 100%; }
+.cabecera-interior { flex-wrap: wrap; }
+
+/* ---------- Portada: franjas verticales como una camiseta ---------- */
+.portada {
+  color: var(--blanco); text-align: center; padding: 3.5rem 1rem;
+  background: repeating-linear-gradient(90deg, var(--azul) 0 40px, var(--azul-oscuro) 40px 80px);
+  border-bottom: 6px solid var(--negro);
+}
+.portada p { max-width: 36rem; margin: 0 auto 1.2rem; font-size: 1.1rem; }
+.portada h1 { text-shadow: 3px 3px 0 var(--negro); }
+.boton {
+  display: inline-block; background: var(--blanco); color: var(--negro);
+  padding: .7rem 1.4rem; border: 3px solid var(--negro);
+  font-weight: 700; text-decoration: none;
+}
+.boton:hover { background: var(--negro); color: var(--blanco); }
+
+/* ---------- Contenido ---------- */
+main { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.titulo-pagina { border-left: 8px solid var(--azul); padding-left: .8rem; margin-bottom: 1.5rem; }
+
+/* Grilla de tarjetas: una columna en móvil, más columnas en pantallas anchas */
+.grilla { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+.tarjeta {
+  background: var(--azul-claro); border: 2px solid var(--negro);
+  border-top: 8px solid var(--azul); padding: 1rem;
+}
+.tarjeta .dato { font-size: .9rem; color: var(--azul-oscuro); font-weight: 700; margin: 0 0 .5rem; }
+
+/* Marca visual para los textos pendientes */
+.completar { background: #fff3a3; color: var(--negro); font-weight: 700; padding: 0 .25rem; }
+
+/* ---------- Pie de página ---------- */
+.pie { background: var(--negro); color: var(--blanco); text-align: center; padding: 1.2rem 1rem; font-size: .9rem; }
+
+/* ---------- Pantallas anchas (tablet y escritorio) ---------- */
+@media (min-width: 700px) {
+  .btn-menu { display: none; }            /* se oculta la hamburguesa */
+  .cabecera nav { flex-basis: auto; }
+  .menu { display: flex; }                /* el menú queda en una fila */
+  .menu a { border-top: 0; padding: .6rem .9rem; }
+  .grilla { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Respeta a quienes prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ---------- Extra para el sitio en un solo archivo ---------- */
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }  /* el menú fijo no tapa los títulos */
+main section { margin-top: 2.5rem; }
+
+  </style>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera-interior">
+      <a class="logo" href="#inicio">Ascenso Argentino</a>
+      <button class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menú</button>
+      <nav aria-label="Principal">
+        <ul class="menu" id="menu">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#historicos">Clubes históricos</a></li>
+          <li><a href="#clasicos">Clásicos de barrio</a></li>
+          <li><a href="#fuentes">Fuentes</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section class="portada" id="inicio">
+    <h1>El fútbol del ascenso</h1>
+    <p>Barrio, tribuna y pasión. <span class="completar">COMPLETAR</span> (frase de presentación del sitio).</p>
+    <a class="boton" href="#historicos">Ver clubes históricos</a>
+  </section>
+  <main>
+    <h2>Qué vas a encontrar</h2>
+    <div class="grilla">
+      <article class="tarjeta"><h3>Clubes históricos</h3><p><span class="completar">COMPLETAR</span> (breve introducción).</p><a href="#historicos">Ir a la sección</a></article>
+      <article class="tarjeta"><h3>Clásicos de barrio</h3><p><span class="completar">COMPLETAR</span> (breve introducción).</p><a href="#clasicos">Ir a la sección</a></article>
+      <article class="tarjeta"><h3>Fuentes</h3><p>De dónde sale la información de este sitio.</p><a href="#fuentes">Ir a la sección</a></article>
+    </div>
+    <h2>Sobre este sitio</h2>
+    <p><span class="completar">COMPLETAR</span> (quién lo hace y por qué).</p>
+  
+    <!-- Sección: clubes históricos -->
+    <section id="historicos">
+    <div class="titulo-pagina"><h2>Clubes históricos</h2>
+    <p><span class="completar">COMPLETAR</span> (introducción de la sección).</p></div>
+    <!-- Cada club es una tarjeta. Copiá y pegá una para sumar más. -->
+    <div class="grilla">
+      <article class="tarjeta"><h3>Atlanta</h3><p class="dato">Villa Crespo, CABA</p><p><span class="completar">COMPLETAR</span> (historia, fundación, ídolos).</p></article>
+      <article class="tarjeta"><h3>Chacarita Juniors</h3><p class="dato">Villa Maipú, San Martín</p><p><span class="completar">COMPLETAR</span> (historia, fundación, ídolos).</p></article>
+      <article class="tarjeta"><h3>Nueva Chicago</h3><p class="dato">Mataderos, CABA</p><p><span class="completar">COMPLETAR</span> (historia, fundación, ídolos).</p></article>
+      <article class="tarjeta"><h3>Ferro Carril Oeste</h3><p class="dato">Caballito, CABA</p><p><span class="completar">COMPLETAR</span> (historia, fundación, ídolos).</p></article>
+      <article class="tarjeta"><h3>All Boys</h3><p class="dato">Floresta, CABA</p><p><span class="completar">COMPLETAR</span> (historia, fundación, ídolos).</p></article>
+      <article class="tarjeta"><h3><span class="completar">COMPLETAR</span> (otro club)</h3><p class="dato"><span class="completar">COMPLETAR</span></p><p><span class="completar">COMPLETAR</span></p></article>
+    </div>
+  </section>
+    <!-- Sección: clásicos de barrio -->
+    <section id="clasicos">
+    <div class="titulo-pagina"><h2>Clásicos de barrio</h2>
+    <p><span class="completar">COMPLETAR</span> (introducción de la sección).</p></div>
+    <div class="grilla">
+      <article class="tarjeta"><h3>Atlanta vs. Chacarita</h3><p class="dato"><span class="completar">COMPLETAR</span> (zona y primer partido)</p><p><span class="completar">COMPLETAR</span> (historia de la rivalidad).</p></article>
+      <article class="tarjeta"><h3><span class="completar">COMPLETAR</span> vs. <span class="completar">COMPLETAR</span></h3><p class="dato"><span class="completar">COMPLETAR</span></p><p><span class="completar">COMPLETAR</span></p></article>
+      <article class="tarjeta"><h3><span class="completar">COMPLETAR</span> vs. <span class="completar">COMPLETAR</span></h3><p class="dato"><span class="completar">COMPLETAR</span></p><p><span class="completar">COMPLETAR</span></p></article>
+    </div>
+  </section>
+    <!-- Sección: fuentes -->
+    <section id="fuentes">
+    <div class="titulo-pagina"><h2>Fuentes</h2>
+    <p>Libros, sitios y archivos usados para armar el contenido.</p></div>
+    <ul>
+      <li><span class="completar">COMPLETAR</span> (fuente 1: título, autor, enlace).</li>
+      <li><span class="completar">COMPLETAR</span> (fuente 2: título, autor, enlace).</li>
+      <li><span class="completar">COMPLETAR</span> (fuente 3: título, autor, enlace).</li>
+    </ul>
+    <h2>Contacto</h2>
+    <p><span class="completar">COMPLETAR</span> (correo o red social para correcciones).</p>
+  </section>
+  </main>
+  <footer class="pie"><p>Ascenso Argentino &copy; <span id="anio">2026</span> &middot; <span class="completar">COMPLETAR</span> (créditos o aclaración)</p></footer>
+  <!-- Todo el JavaScript va acá adentro -->
+  <script>
+/* Comportamiento del sitio en un solo archivo */
+document.addEventListener("DOMContentLoaded", function () {
+  var boton = document.getElementById("btn-menu");
+  var menu = document.getElementById("menu");
+  var enlaces = menu.querySelectorAll("a");
+  var ids = ["inicio", "historicos", "clasicos", "fuentes"];
+
+  // 1) Menú desplegable en el celular
+  boton.addEventListener("click", function () {
+    var abierto = menu.classList.toggle("abierto");
+    boton.setAttribute("aria-expanded", abierto);
+  });
+
+  // 2) Al tocar un enlace, el menú se cierra
+  enlaces.forEach(function (a) {
+    a.addEventListener("click", function () {
+      menu.classList.remove("abierto");
+      boton.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  // 3) Marca en el menú la sección que se está viendo
+  function marcarActivo() {
+    var pos = window.scrollY + 120, actual = ids[0];
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top + window.scrollY <= pos) { actual = id; }
+    });
+    enlaces.forEach(function (a) {
+      var activo = a.getAttribute("href") === "#" + actual;
+      a.classList.toggle("activo", activo);
+      if (activo) { a.setAttribute("aria-current", "page"); } else { a.removeAttribute("aria-current"); }
+    });
+  }
+  window.addEventListener("scroll", marcarActivo);
+  marcarActivo();
+
+  // 4) Año actual en el pie
+  var anio = document.getElementById("anio");
+  if (anio) { anio.textContent = new Date().getFullYear(); }
+});
+  </script>
+</body>
+</html>
